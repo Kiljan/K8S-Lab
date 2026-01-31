@@ -1,0 +1,5 @@
+- name: Install core packages
+  yum:
+    name: "{{ main_packages }}"
+    state: "{{ desired_state_basic }}"
+  with_items: "{{ main_packages }}"

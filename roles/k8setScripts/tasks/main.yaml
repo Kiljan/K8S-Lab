@@ -1,0 +1,11 @@
+- name: Run a script
+  ansible.builtin.script: all.sh
+
+
+- name: Copy after init K8s file
+  copy:
+    src: "set_up_after_init.sh"
+    dest: /home/vv
+    owner: vv
+    group: vv
+    mode: '0700'

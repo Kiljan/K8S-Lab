@@ -1,0 +1,40 @@
+grafana:
+  enabled: true
+  namespaceOverride: ""
+
+  service:
+    port: 80
+    targetPort: 3000
+    type: NodePort
+    nodePort: 30008
+
+  grafana.ini:
+    server:
+      domain: grafana.local
+      root_url: http://grafana.local
+      serve_from_sub_path: false
+    security:
+      allowed_origins: '*'
+      cookie_secure: false
+      allow_embedding: false
+
+  ingress:
+    enabled: false
+    ingressClassName: nginx
+
+    annotations:
+      kubernetes.io/ingress.class: nginx
+      nginx.ingress.kubernetes.io/enable-websocket: "true"
+      nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+      nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
+      nginx.ingress.kubernetes.io/proxy-buffering: "off"
+      nginx.ingress.kubernetes.io/proxy-request-buffering: "off"
+      nginx.ingress.kubernetes.io/proxy-http-version: "1.1"
+
+    labels: {}
+
+    hosts:
+      - grafana.local
+
+    path: /
+    tls: []

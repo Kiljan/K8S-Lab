@@ -1,0 +1,2 @@
+- name: Run a script
+  ansible.builtin.script: setip.sh

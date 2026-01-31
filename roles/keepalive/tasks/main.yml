@@ -1,0 +1,4 @@
+- name: Configure Keepalive
+  copy:
+    src: "101-network.conf"
+    dest: /etc/sysctl.d/101-network.conf

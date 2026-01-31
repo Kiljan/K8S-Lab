@@ -1,0 +1,33 @@
+controller:
+  kind: DaemonSet                    # Runs on every node
+  hostNetwork: true                  # Binds directly to node interfaces
+  dnsPolicy: ClusterFirstWithHostNet # Required with hostNetwork
+
+  containerSecurityContext:
+    capabilities:
+      add:
+        - NET_BIND_SERVICE           # Bind to privileged ports
+
+  podSecurityContext:
+    runAsUser: 0                     # Root required for hostNetwork
+    runAsGroup: 0
+    fsGroup: 0
+
+  service:
+    enabled: true
+    type: LoadBalancer               # HAProxy will target this
+    externalTrafficPolicy: Local     # CRITICAL: Only routes to nodes WITH ingress pods
+    nodePorts:
+      http: 30080                    # HAProxy targets these ports
+      https: 30443
+
+  admissionWebhooks:
+    enabled: false
+
+  metrics:
+    enabled: false
+
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi

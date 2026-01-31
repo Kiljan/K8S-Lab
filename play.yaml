@@ -1,0 +1,13 @@
+---
+- name: Set up env
+  hosts: all
+  become: true
+  gather_facts: false
+
+  roles:
+   - yumsets
+   - timesets
+   - keepalive
+   - k8firewall
+   - k8setScripts
+   - k8IPset

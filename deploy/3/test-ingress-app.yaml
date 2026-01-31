@@ -1,0 +1,76 @@
+# =================================
+# Namespace
+# =================================
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: test-vip
+
+---
+# =================================
+# Deployment
+# =================================
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-test
+  namespace: test-vip
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: nginx-test
+  template:
+    metadata:
+      labels:
+        app: nginx-test
+    spec:
+      containers:
+        - name: nginx
+          image: nginx:alpine
+          ports:
+            - containerPort: 80
+
+---
+# =================================
+# Service - ClusterIP
+# =================================
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-test
+  namespace: test-vip
+spec:
+  type: ClusterIP
+  selector:
+    app: nginx-test
+  ports:
+    - port: 80
+      targetPort: 80
+      name: http
+
+---
+# =================================
+# Ingress - ingress-nginx
+# =================================
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: nginx-test
+  namespace: test-vip
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: hello.local
+      http:
+        paths:
+          - path: /app
+            pathType: Prefix
+            backend:
+              service:
+                name: nginx-test
+                port:
+                  number: 80
+

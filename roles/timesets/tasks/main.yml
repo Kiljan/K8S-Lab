@@ -1,0 +1,12 @@
+- name: Configure chronyd
+  copy:
+    src: chrony.conf
+    dest: /etc/chrony.conf
+  notify:
+  - Restart chronyd
+
+- name: Enable chronyd.service
+  service:
+    name: chronyd
+    state: started
+    enabled: yes

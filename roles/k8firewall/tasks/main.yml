@@ -1,0 +1,10 @@
+- name: Set up firewall rule ports
+  firewalld:
+    permanent: yes
+    immediate: yes
+    port: "{{item.port}}/{{item.proto}}"
+    state: enabled
+    zone: public
+  with_items: "{{ firewall_ports }}"
+  notify:
+    - Reload FirewallD
