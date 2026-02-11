@@ -1,1 +1,4 @@
 join_token
+deploy/5/dashboard.pem
+deploy/5/dashboard.key
+deploy/5/dashboard.crt

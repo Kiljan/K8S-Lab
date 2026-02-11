@@ -37,7 +37,7 @@ kubectl run curl --rm -it --image=curlimages/curl -- sh
 ```
 
 
-# 4 Monitoring
+## 4 Monitoring
 
 ```bash
 helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
@@ -73,3 +73,18 @@ Get your grafana admin user password by running:
 Visit https://github.com/prometheus-operator/kube-prometheus for instructions on how to create & configure Alertmanager and Prometheus instances using the Operator.
 ```
 
+## 5 Monitoring Kubernetes Dashboard
+
+```bash
+chmod +x manage_certs_for_haproxy.sh
+./manage_certs_for_haproxy.sh
+```
+
+```bash
+kubectl apply -f dashboard_recommended.yaml
+```
+
+```bash
+chmod +x token.sh
+./token.sh
+```

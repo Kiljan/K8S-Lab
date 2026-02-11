@@ -29,7 +29,7 @@ ansible-playbook play.yaml
 
 ## For HAProxy additional setting
 
-HAProxy server is localhost so I take IP from my wifi inet. After that i put on __/etc/hosts__ file string like __192.168.0.185 grafana.local hello.local__. Local IP is my HAProxy server IP and after something hit ```grafana.local``` or ```hello.local``` HAproxy will behave based on __haproxy.cfg__ configuration file
+HAProxy server is localhost so I take IP from my wifi inet. After that i put on __/etc/hosts__ file string like __192.168.0.185 grafana.local hello.local__. Local IP is my HAProxy server IP and after something hit ```grafana.local``` or ```hello.local``` HAproxy will behave based on __haproxy.cfg__ configuration file.
 
 ## Deploy 
 
@@ -39,14 +39,17 @@ HAProxy server is localhost so I take IP from my wifi inet. After that i put on 
   - __Folder 2__: Install ingress controller via helm (PS. I could not use Metallab because Oracle Linux 10 do not support iptables-legacy any more).
   - __Folder 3__: apply test app
   - __Folder 4__: install monitoring stack via helm.
+  - __Folder 5__: install kubernetes dashboard via deployment
 
   
 ## Result after deployment
   
 ```bash
-  HAProxy (192.168.0.185:80) 
-├── grafana.local → monitoring-grafana:30008 (NodePort)
-└── hello.local/app → nginx-test:80 (Ingress)
+  HAProxy (192.168.0.185:80 → local) 
+├── grafana.local           → monitoring-grafana:30008 (NodePort)
+├── https://dashboard.local → kubernetes-dashboard:30080 (Ingress)
+└── http://hello.local/app  → nginx-test:30080 (Ingress)
+
 ```
 
 
